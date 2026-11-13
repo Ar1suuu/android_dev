@@ -3,7 +3,7 @@ import "package:android_dev/screens/tabs/placeholder_tab.dart";
 import "package:android_dev/screens/tabs/search_tab.dart";
 import "package:android_dev/widgets/animated_indexed_stack.dart";
 import "package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart";
-import "package:flutter/material.dart";
+import "package:material_ui/material_ui.dart";
 
 class MainScreen extends StatefulWidget {
   const new({super.key});
