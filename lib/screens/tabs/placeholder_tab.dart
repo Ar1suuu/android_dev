@@ -11,12 +11,8 @@ class PlaceholderTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Icon(icon, size: 96, color: Colors.grey),
-      ),
+      appBar: AppBar(title: Text(title)),
+      body: Center(child: Icon(icon, size: 96, color: Colors.grey)),
     );
   }
 }

@@ -12,12 +12,11 @@ class SearchTab extends StatefulWidget {
 class _SearchTabState extends State<SearchTab> {
   DioService dioService = DioService();
 
-  late Future <List<dynamic>> _futureData;
+  late Future<List<dynamic>> _futureData;
 
   Future<List<dynamic>> fetchData() async {
     final response = await dioService.get('https://dummyjson.com/products', 10);
     return response['products'] as List<dynamic>;
-   
   }
 
   @override
@@ -30,9 +29,7 @@ class _SearchTabState extends State<SearchTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        title: const Text('Instagram'),
-      ),
+      appBar: AppBar(title: const Text('Instagram')),
       body: FutureBuilder<List<dynamic>>(
         future: _futureData,
         builder: (context, snapshot) {
@@ -46,14 +43,18 @@ class _SearchTabState extends State<SearchTab> {
             final data = snapshot.data!;
             return GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 3,
                 crossAxisSpacing: 4.0,
                 mainAxisSpacing: 4.0,
               ),
               itemCount: data.length,
               itemBuilder: (context, index) {
                 final item = data[index];
-                return ImageGridItem(imageUrl: item['thumbnail'], description: item['description'], title: item['title']);
+                return ImageGridItem(
+                  imagePath: "assets/images/search_${(index % 3) + 1}.jpg",
+                  description: item['description'],
+                  title: item['title'],
+                );
               },
             );
           }

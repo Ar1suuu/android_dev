@@ -67,7 +67,7 @@ class PostWidget extends ConsumerWidget {
                 CircleAvatar(
                   radius: 18,
                   backgroundColor: Colors.grey.shade200,
-                  backgroundImage: NetworkImage(post.avatarUrl),
+                  backgroundImage: AssetImage(post.avatarPath),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -87,7 +87,7 @@ class PostWidget extends ConsumerWidget {
           ),
           AspectRatio(
             aspectRatio: 1,
-            child: Image.network(post.imageUrl, fit: BoxFit.cover),
+            child: Image.asset(post.imagePath, fit: BoxFit.cover),
           ),
           Row(
             children: [
@@ -110,8 +110,12 @@ class PostWidget extends ConsumerWidget {
               ),
               const Spacer(),
               IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.bookmark_border),
+                onPressed: () {
+                  ref.read(postsProvider.notifier).toggleSave(post.id);
+                },
+                icon: Icon(
+                  post.isSaved ? Icons.bookmark : Icons.bookmark_border,
+                ),
               ),
             ],
           ),

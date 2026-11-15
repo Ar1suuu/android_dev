@@ -1,11 +1,11 @@
 class StoryModel {
   final String username;
-  final String imageUrl;
+  final String imagePath;
   final bool isSeen;
 
   const StoryModel({
     required this.username,
-    required this.imageUrl,
+    required this.imagePath,
     this.isSeen = false,
   });
 }

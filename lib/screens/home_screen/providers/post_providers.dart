@@ -33,6 +33,13 @@ class PostsNotifier extends Notifier<List<PostModel>> {
           post,
     ];
   }
+
+  void toggleSave(int id) {
+    state = [
+      for (final post in state)
+        if (post.id == id) post.copyWith(isSaved: !post.isSaved) else post,
+    ];
+  }
 }
 
 final postsProvider = NotifierProvider<PostsNotifier, List<PostModel>>(

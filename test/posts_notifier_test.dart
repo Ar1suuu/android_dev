@@ -21,4 +21,18 @@ void main() {
     expect(unlikedPost.isLiked, isFalse);
     expect(unlikedPost.likeCount, post.likeCount);
   });
+
+  test("toggleSave updates the post", () {
+    final container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    final post = container.read(postsProvider).first;
+    expect(post.isSaved, isFalse);
+
+    container.read(postsProvider.notifier).toggleSave(post.id);
+    expect(container.read(postsProvider).first.isSaved, isTrue);
+
+    container.read(postsProvider.notifier).toggleSave(post.id);
+    expect(container.read(postsProvider).first.isSaved, isFalse);
+  });
 }

@@ -25,7 +25,7 @@ class StoryWidget extends StatelessWidget {
             child: CircleAvatar(
               radius: 31,
               backgroundColor: Colors.grey.shade200,
-              backgroundImage: NetworkImage(story.imageUrl),
+              backgroundImage: AssetImage(story.imagePath),
             ),
           ),
           const SizedBox(height: 8),
