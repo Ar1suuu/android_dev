@@ -7,6 +7,7 @@ const String sampleImageUrl =
 
 final List<PostModel> postsData = [
   PostModel(
+    id: 1,
     username: "aminloh",
     avatarUrl: sampleImageUrl,
     imageUrl: sampleImageUrl,
@@ -26,6 +27,7 @@ final List<PostModel> postsData = [
     ],
   ),
   PostModel(
+    id: 2,
     username: "gugaluga",
     avatarUrl: sampleImageUrl,
     imageUrl: sampleImageUrl,
@@ -45,6 +47,7 @@ final List<PostModel> postsData = [
     ],
   ),
   PostModel(
+    id: 3,
     username: "jojo",
     avatarUrl: sampleImageUrl,
     imageUrl: sampleImageUrl,
@@ -64,6 +67,7 @@ final List<PostModel> postsData = [
     ],
   ),
   PostModel(
+    id: 4,
     username: "skibidi_king",
     avatarUrl: sampleImageUrl,
     imageUrl: sampleImageUrl,
@@ -83,6 +87,7 @@ final List<PostModel> postsData = [
     ],
   ),
   PostModel(
+    id: 5,
     username: "sigma_lord",
     avatarUrl: sampleImageUrl,
     imageUrl: sampleImageUrl,
@@ -102,6 +107,7 @@ final List<PostModel> postsData = [
     ],
   ),
   PostModel(
+    id: 6,
     username: "gyattzilla",
     avatarUrl: sampleImageUrl,
     imageUrl: sampleImageUrl,
@@ -121,6 +127,7 @@ final List<PostModel> postsData = [
     ],
   ),
   PostModel(
+    id: 7,
     username: "ohio_rizz",
     avatarUrl: sampleImageUrl,
     imageUrl: sampleImageUrl,
@@ -140,6 +147,7 @@ final List<PostModel> postsData = [
     ],
   ),
   PostModel(
+    id: 8,
     username: "fanum_tax",
     avatarUrl: sampleImageUrl,
     imageUrl: sampleImageUrl,
@@ -159,6 +167,7 @@ final List<PostModel> postsData = [
     ],
   ),
   PostModel(
+    id: 9,
     username: "bussin_bro",
     avatarUrl: sampleImageUrl,
     imageUrl: sampleImageUrl,
@@ -178,6 +187,7 @@ final List<PostModel> postsData = [
     ],
   ),
   PostModel(
+    id: 10,
     username: "no_cap_nina",
     avatarUrl: sampleImageUrl,
     imageUrl: sampleImageUrl,

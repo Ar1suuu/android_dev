@@ -1,28 +1,17 @@
 import "package:android_dev/screens/content/post_widget.dart";
-import "package:android_dev/screens/home_screen/data/posts_data.dart";
-import "package:android_dev/screens/home_screen/services/post_services.dart";
+import "package:android_dev/screens/home_screen/providers/post_providers.dart";
 import "package:android_dev/screens/home_screen/widgets/stories_list.dart";
-import "package:flutter/material.dart";
+import "package:material_ui/material_ui.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 
-class HomeTab extends StatefulWidget {
+class HomeTab extends ConsumerWidget {
   const new({super.key});
 
   @override
-  State<HomeTab> createState() => _HomeTabState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final posts = ref.watch(postsProvider);
+    final stories = ref.watch(storiesProvider);
 
-class _HomeTabState extends State<HomeTab> {
-  final PostServices _postServices = PostServices();
-
-  @override
-  void initState() {
-    super.initState();
-    _postServices.batchAddPosts(postsData);
-    _postServices.batchAddStories(storiesData);
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
@@ -36,16 +25,16 @@ class _HomeTabState extends State<HomeTab> {
         children: [
           Container(
             color: Colors.white,
-            child: StoriesList(stories: _postServices.stories),
+            child: StoriesList(stories: stories),
           ),
           const Divider(height: 1),
           Expanded(
             child: ListView.builder(
-              itemCount: _postServices.posts.length,
+              itemCount: posts.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(4),
-                  child: PostWidget(post: _postServices.posts[index]),
+                  child: PostWidget(post: posts[index]),
                 );
               },
             ),

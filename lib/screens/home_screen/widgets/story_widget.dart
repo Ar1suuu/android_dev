@@ -1,5 +1,5 @@
 import "package:android_dev/screens/home_screen/models/story_model.dart";
-import "package:flutter/material.dart";
+import "package:material_ui/material_ui.dart";
 
 class StoryWidget extends StatelessWidget {
   final StoryModel story;
@@ -25,14 +25,7 @@ class StoryWidget extends StatelessWidget {
             child: CircleAvatar(
               radius: 31,
               backgroundColor: Colors.grey.shade200,
-              child: ClipOval(
-                child: Image.network(
-                  story.imageUrl,
-                  width: 62,
-                  height: 62,
-                  fit: BoxFit.cover,
-                ),
-              ),
+              backgroundImage: NetworkImage(story.imageUrl),
             ),
           ),
           const SizedBox(height: 8),

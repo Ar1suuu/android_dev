@@ -1,34 +1,15 @@
 import "package:android_dev/screens/home_screen/models/post_model.dart";
+import "package:android_dev/screens/home_screen/providers/post_providers.dart";
 import "package:android_dev/screens/home_screen/widgets/comment_widget.dart";
-import "package:flutter/material.dart";
+import "package:material_ui/material_ui.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 
-class PostWidget extends StatefulWidget {
+class PostWidget extends ConsumerWidget {
   final PostModel post;
 
   const PostWidget({super.key, required this.post});
 
-  @override
-  State<PostWidget> createState() => _PostWidgetState();
-}
-
-class _PostWidgetState extends State<PostWidget> {
-  late bool _isLiked;
-
-  @override
-  void initState() {
-    super.initState();
-    _isLiked = widget.post.isLiked;
-  }
-
-  void _toggleLike() {
-    setState(() {
-      _isLiked = !_isLiked;
-      widget.post.isLiked = _isLiked;
-      widget.post.addLike(widget.post.likeCount + (_isLiked ? 1 : -1));
-    });
-  }
-
-  void _openComments() {
+  void _openComments(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.white,
@@ -42,7 +23,7 @@ class _PostWidgetState extends State<PostWidget> {
             children: [
               const SizedBox(height: 12),
               Text(
-                "Comments (${widget.post.commentCount})",
+                "Comments (${post.commentCount})",
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -53,9 +34,9 @@ class _PostWidgetState extends State<PostWidget> {
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  itemCount: widget.post.comments.length,
+                  itemCount: post.comments.length,
                   itemBuilder: (context, index) {
-                    return CommentWidget(comment: widget.post.comments[index]);
+                    return CommentWidget(comment: post.comments[index]);
                   },
                 ),
               ),
@@ -67,9 +48,7 @@ class _PostWidgetState extends State<PostWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final post = widget.post;
-
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -113,14 +92,16 @@ class _PostWidgetState extends State<PostWidget> {
           Row(
             children: [
               IconButton(
-                onPressed: _toggleLike,
+                onPressed: () {
+                  ref.read(postsProvider.notifier).toggleLike(post.id);
+                },
                 icon: Icon(
-                  _isLiked ? Icons.favorite : Icons.favorite_border,
-                  color: _isLiked ? Colors.red : null,
+                  post.isLiked ? Icons.favorite : Icons.favorite_border,
+                  color: post.isLiked ? Colors.red : null,
                 ),
               ),
               IconButton(
-                onPressed: _openComments,
+                onPressed: () => _openComments(context),
                 icon: const Icon(Icons.chat_bubble_outline),
               ),
               IconButton(
@@ -161,7 +142,7 @@ class _PostWidgetState extends State<PostWidget> {
             CommentWidget(comment: post.comments.first),
           if (post.comments.length > 1)
             TextButton(
-              onPressed: _openComments,
+              onPressed: () => _openComments(context),
               child: Text(
                 "View all ${post.commentCount} comments",
                 style: TextStyle(color: Colors.grey.shade600),
