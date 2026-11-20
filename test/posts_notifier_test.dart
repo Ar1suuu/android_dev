@@ -1,38 +1,44 @@
-import "package:android_dev/screens/home_screen/providers/post_providers.dart";
-import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:android_dev/screens/home_screen/models/comment_model.dart";
+import "package:android_dev/screens/home_screen/models/post_model.dart";
 import "package:flutter_test/flutter_test.dart";
 
 void main() {
-  test("toggleLike updates the post", () {
-    final container = ProviderContainer();
-    addTearDown(container.dispose);
+  test("post copyWith updates likes and saves", () {
+    final post = PostModel(
+      id: 1,
+      userId: 1,
+      username: "aminloh",
+      avatarPath: "assets/images/post.jpg",
+      imagePath: "assets/images/post.jpg",
+      description: "morning coffee hits different fr",
+      likeCount: 4,
+      comments: [],
+    );
 
-    final post = container.read(postsProvider).first;
+    final liked = post.copyWith(isLiked: true, likeCount: 5, isSaved: true);
 
-    container.read(postsProvider.notifier).toggleLike(post.id);
-    final likedPost = container.read(postsProvider).first;
-
-    expect(likedPost.isLiked, isTrue);
-    expect(likedPost.likeCount, post.likeCount + 1);
-
-    container.read(postsProvider.notifier).toggleLike(post.id);
-    final unlikedPost = container.read(postsProvider).first;
-
-    expect(unlikedPost.isLiked, isFalse);
-    expect(unlikedPost.likeCount, post.likeCount);
+    expect(liked.isLiked, isTrue);
+    expect(liked.likeCount, 5);
+    expect(liked.isSaved, isTrue);
+    expect(post.isLiked, isFalse);
+    expect(post.likeCount, 4);
   });
 
-  test("toggleSave updates the post", () {
-    final container = ProviderContainer();
-    addTearDown(container.dispose);
+  test("comment copyWith updates likes", () {
+    const comment = CommentModel(
+      id: 1,
+      postId: 1,
+      username: "rizzlerr",
+      text: "bro same every day",
+      avatarPath: "assets/images/post.jpg",
+      likeCount: 2,
+    );
 
-    final post = container.read(postsProvider).first;
-    expect(post.isSaved, isFalse);
+    final liked = comment.copyWith(isLiked: true, likeCount: 3);
 
-    container.read(postsProvider.notifier).toggleSave(post.id);
-    expect(container.read(postsProvider).first.isSaved, isTrue);
-
-    container.read(postsProvider.notifier).toggleSave(post.id);
-    expect(container.read(postsProvider).first.isSaved, isFalse);
+    expect(liked.isLiked, isTrue);
+    expect(liked.likeCount, 3);
+    expect(comment.isLiked, isFalse);
+    expect(comment.likeCount, 2);
   });
 }

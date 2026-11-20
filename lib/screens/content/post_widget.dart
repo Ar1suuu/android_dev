@@ -1,8 +1,9 @@
+import "package:android_dev/screens/content/comments_sheet.dart";
 import "package:android_dev/screens/home_screen/models/post_model.dart";
 import "package:android_dev/screens/home_screen/providers/post_providers.dart";
 import "package:android_dev/screens/home_screen/widgets/comment_widget.dart";
-import "package:material_ui/material_ui.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:material_ui/material_ui.dart";
 
 class PostWidget extends ConsumerWidget {
   final PostModel post;
@@ -12,37 +13,13 @@ class PostWidget extends ConsumerWidget {
   void _openComments(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (context) {
-        return SizedBox(
-          height: 380,
-          child: Column(
-            children: [
-              const SizedBox(height: 12),
-              Text(
-                "Comments (${post.commentCount})",
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Divider(height: 1),
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  itemCount: post.comments.length,
-                  itemBuilder: (context, index) {
-                    return CommentWidget(comment: post.comments[index]);
-                  },
-                ),
-              ),
-            ],
-          ),
-        );
+        return CommentsSheet(postId: post.id);
       },
     );
   }
@@ -143,7 +120,7 @@ class PostWidget extends ConsumerWidget {
           ),
           const SizedBox(height: 4),
           if (post.comments.isNotEmpty)
-            CommentWidget(comment: post.comments.first),
+            CommentWidget(postId: post.id, comment: post.comments.first),
           if (post.comments.length > 1)
             TextButton(
               onPressed: () => _openComments(context),

@@ -1,8 +1,8 @@
 import "package:android_dev/screens/content/post_widget.dart";
 import "package:android_dev/screens/home_screen/providers/post_providers.dart";
 import "package:android_dev/screens/home_screen/widgets/stories_list.dart";
-import "package:material_ui/material_ui.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:material_ui/material_ui.dart";
 
 class HomeTab extends ConsumerWidget {
   const HomeTab({super.key});
@@ -29,12 +29,33 @@ class HomeTab extends ConsumerWidget {
           ),
           const Divider(height: 1),
           Expanded(
-            child: ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: PostWidget(post: posts[index]),
+            child: posts.when(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, stack) => Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text("Could not load posts"),
+                    const SizedBox(height: 8),
+                    TextButton(
+                      onPressed: () {
+                        ref.invalidate(currentUserProvider);
+                        ref.invalidate(postsProvider);
+                      },
+                      child: const Text("Retry"),
+                    ),
+                  ],
+                ),
+              ),
+              data: (items) {
+                return ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: PostWidget(post: items[index]),
+                    );
+                  },
                 );
               },
             ),
