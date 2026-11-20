@@ -13,24 +13,14 @@ class PostServices {
     stories.addAll(newStories);
   }
 
-  Future<UserModel> fetchCurrentUser() async {
-    final row = await _client
-        .from("users")
-        .select("id, username, avatar_url")
-        .eq("username", "aminloh")
-        .single();
-
-    return UserModel(
-      id: _asInt(row["id"]),
-      username: _asText(row["username"]),
-      avatarPath: _asText(row["avatar_url"]),
-    );
-  }
-
   Future<List<PostModel>> fetchPosts(int currentUserId) async {
     final results = await Future.wait([
-      _client.from("users").select("id, username, avatar_url"),
-      _client.from("posts").select("id, user_id, image_url, caption").order("id"),
+      _client.from("users").select(
+            "id, username, display_name, avatar_url, bio",
+          ),
+      _client.from("posts").select(
+            "id, user_id, image_url, caption, location",
+          ).order("id"),
       _client.from("comments").select("id, post_id, user_id, body").order("id"),
       _client.from("post_likes").select("post_id, user_id"),
       _client.from("comment_likes").select("comment_id, user_id"),
@@ -42,7 +32,9 @@ class PostServices {
       users[id] = UserModel(
         id: id,
         username: _asText(row["username"]),
+        displayName: _asText(row["display_name"]),
         avatarPath: _asText(row["avatar_url"]),
+        bio: _asText(row["bio"]),
       );
     }
 
@@ -95,6 +87,7 @@ class PostServices {
               ? "assets/images/post.jpg"
               : imagePath,
           description: _asText(row["caption"]),
+          location: _asText(row["location"]),
           likeCount: likes.length,
           isLiked: likes.contains(currentUserId),
           comments: commentsByPost[id] ?? [],

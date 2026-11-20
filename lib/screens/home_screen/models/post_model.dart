@@ -7,6 +7,7 @@ class PostModel {
   final String avatarPath;
   final String imagePath;
   final String description;
+  final String location;
   final int likeCount;
   final bool isLiked;
   final bool isSaved;
@@ -19,8 +20,9 @@ class PostModel {
     required this.avatarPath,
     required this.imagePath,
     required this.description,
-    required this.likeCount,
     required this.comments,
+    this.location = "",
+    this.likeCount = 0,
     this.isLiked = false,
     this.isSaved = false,
   });
@@ -40,6 +42,7 @@ class PostModel {
       avatarPath: avatarPath,
       imagePath: imagePath,
       description: description,
+      location: location,
       likeCount: likeCount ?? this.likeCount,
       isLiked: isLiked ?? this.isLiked,
       isSaved: isSaved ?? this.isSaved,

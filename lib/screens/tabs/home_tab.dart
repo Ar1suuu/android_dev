@@ -1,3 +1,4 @@
+import "package:android_dev/screens/auth/providers/auth_providers.dart";
 import "package:android_dev/screens/content/post_widget.dart";
 import "package:android_dev/screens/home_screen/providers/post_providers.dart";
 import "package:android_dev/screens/home_screen/widgets/stories_list.dart";

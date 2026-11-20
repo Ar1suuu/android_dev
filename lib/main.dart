@@ -1,9 +1,8 @@
 import "package:android_dev/core/supabase/supabase_config.dart";
+import "package:android_dev/screens/auth/screens/auth_gate.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:material_ui/material_ui.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
-
-import "screens/main_screen.dart";
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +20,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MainScreen(),
+      home: AuthGate(),
     );
   }
 }

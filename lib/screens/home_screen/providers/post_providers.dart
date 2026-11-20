@@ -1,8 +1,8 @@
+import "package:android_dev/screens/auth/providers/auth_providers.dart";
 import "package:android_dev/screens/home_screen/data/posts_data.dart";
 import "package:android_dev/screens/home_screen/models/comment_model.dart";
 import "package:android_dev/screens/home_screen/models/post_model.dart";
 import "package:android_dev/screens/home_screen/models/story_model.dart";
-import "package:android_dev/screens/home_screen/models/user_model.dart";
 import "package:android_dev/screens/home_screen/services/post_services.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
@@ -10,10 +10,6 @@ final postServicesProvider = Provider<PostServices>((ref) {
   final postServices = PostServices();
   postServices.batchAddStories(storiesData);
   return postServices;
-});
-
-final currentUserProvider = FutureProvider<UserModel>((ref) {
-  return ref.watch(postServicesProvider).fetchCurrentUser();
 });
 
 final storiesProvider = Provider<List<StoryModel>>((ref) {
@@ -24,6 +20,7 @@ class PostsNotifier extends AsyncNotifier<List<PostModel>> {
   @override
   Future<List<PostModel>> build() async {
     final user = await ref.watch(currentUserProvider.future);
+    if (user == null) return [];
     return ref.watch(postServicesProvider).fetchPosts(user.id);
   }
 
@@ -35,7 +32,7 @@ class PostsNotifier extends AsyncNotifier<List<PostModel>> {
     if (post == null) return;
 
     final user = await ref.read(currentUserProvider.future);
-    if (!ref.mounted) return;
+    if (!ref.mounted || user == null) return;
 
     try {
       await ref.read(postServicesProvider).togglePostLike(
@@ -81,7 +78,7 @@ class PostsNotifier extends AsyncNotifier<List<PostModel>> {
     if (body.isEmpty) return;
 
     final user = await ref.read(currentUserProvider.future);
-    if (!ref.mounted) return;
+    if (!ref.mounted || user == null) return;
 
     final comment = await ref.read(postServicesProvider).addComment(
           postId: postId,
@@ -110,7 +107,7 @@ class PostsNotifier extends AsyncNotifier<List<PostModel>> {
     if (comment == null) return;
 
     final user = await ref.read(currentUserProvider.future);
-    if (!ref.mounted) return;
+    if (!ref.mounted || user == null) return;
 
     try {
       await ref.read(postServicesProvider).toggleCommentLike(
